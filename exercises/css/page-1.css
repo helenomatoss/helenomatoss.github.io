@@ -1,0 +1,29 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  max-width: 700px;
+  margin: 0 auto;
+  padding: 2rem 1.25rem;
+  font-family: Arial, Helvetica, sans-serif;
+  line-height: 1.6;
+  color: #222;
+  background-color: #fafafa;
+}
+
+h1 {
+  color: #333;
+}
+
+p {
+  margin: 0 0 1rem;
+}
+
+a {
+  color: #1f5fbf;
+}
+
+a:hover {
+  color: #0d3b82;
+}

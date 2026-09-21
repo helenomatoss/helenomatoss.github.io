@@ -1,0 +1,36 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 2rem 1.25rem;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 1.125rem;
+  line-height: 1.8;
+  color: #2b2118;
+  background-color: #fbf6ec;
+}
+
+h1 {
+  text-align: center;
+  color: #4a2c17;
+}
+
+h2,
+h3 {
+  color: #6b4226;
+}
+
+p {
+  margin: 0 0 1rem;
+}
+
+a {
+  color: #8b4513;
+}
+
+a:hover {
+  color: #b5651d;
+}
