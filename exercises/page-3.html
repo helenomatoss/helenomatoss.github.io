@@ -1,58 +1,148 @@
-
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Between 50 and 60 characters (including spaces)</title>
-  <meta name="description" content="Between 150 and 160 characters (including spaces). Like the title, this is important for search engines.">
-  <link rel="stylesheet" href="css/page-3.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Between 50 and 60 characters (including spaces)</title>
+  <meta name="description" content="Between 150 and 160 characters (including spaces). Like the title, this is important for search engines.">
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+  <style type="text/tailwindcss">
+    body {
+      @apply bg-white text-slate-900 font-sans;
+    }
 
+    nav {
+      @apply bg-slate-900 text-white flex justify-between items-center
+      px-[9%] py-4 md:px-[20%];
+    }
+
+    nav p {
+      @apply text-xl font-bold tracking-widest uppercase;
+    }
+
+    nav a {
+      @apply text-white font-medium no-underline
+      hover:text-amber-300 focus:text-amber-300 transition-colors duration-300;
+    }
+
+    header {
+      @apply bg-slate-100 text-center
+      pt-8 px-[9%] pb-[42px] md:py-[3%] md:px-[20%];
+    }
+
+    header h1 {
+      @apply text-5xl md:text-7xl font-serif font-bold tracking-tight;
+    }
+
+    section {
+      @apply pt-8 px-[9%] pb-[42px] md:py-[3%] md:px-[20%];
+    }
+
+    section h2 {
+      @apply text-3xl font-semibold tracking-wide uppercase mb-4;
+    }
+
+    section p {
+      @apply text-lg leading-relaxed mb-4;
+    }
+
+    section p:last-child {
+      @apply italic mb-0;
+    }
+
+    .section-light {
+      @apply bg-amber-100 text-stone-900;
+    }
+
+    .section-dark {
+      @apply bg-slate-800 text-white;
+    }
+
+    .section-blue {
+      @apply bg-sky-100 text-sky-950;
+    }
+
+    .section-green {
+      @apply bg-emerald-800 text-white;
+    }
+
+    .section-rose {
+      @apply bg-rose-100 text-rose-950;
+    }
+
+    footer {
+      @apply bg-slate-900 text-slate-100 text-center
+      px-[9%] py-6 md:px-[20%];
+    }
+
+    footer a {
+      @apply text-amber-300 underline underline-offset-4
+      hover:text-amber-100 focus:text-amber-100 transition-colors duration-300;
+    }
+  </style>
+  <!-- Heleno Vitor Matos Leite 85416 -->
 </head>
-    
+
 <body>
 
  <!-- Navigation menu with logo -->
-  <nav></nav>
+  <nav>
+    <p>HM</p>
+    <a href="../index.html">Home</a>
+  </nav>
 
 
  <!-- Hero block -->
     <header>
         <h1>Big heading</h1>
-        <h2>Smaller sub-heading</h2>
+
     </header>
 
     <!-- Main content of web page in sections -->
     <main>
-        <section>
+        <section class="section-light">
             <h2>Smaller Heading</h2>
             <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Minima exercitationem, fuga doloribus sequi sint eveniet nobis nulla obcaecati quibusdam quae, quia aliquam mollitia ea vel ullam dolores natus in quisquam?</p>
-
+            <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.</p>
         </section>
 
-        <section>
+        <section class="section-dark">
             <h2>Smaller Heading</h2>
             <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Minima exercitationem, fuga doloribus sequi sint eveniet nobis nulla obcaecati quibusdam quae, quia aliquam mollitia ea vel ullam dolores natus in quisquam?</p>
-
+            <p>Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt neque porro quisquam est.</p>
         </section>
 
-        <section>
+        <section class="section-blue">
             <h2>Smaller Heading</h2>
             <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Minima exercitationem, fuga doloribus sequi sint eveniet nobis nulla obcaecati quibusdam quae, quia aliquam mollitia ea vel ullam dolores natus in quisquam?</p>
-
+            <p>Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur quis autem vel eum iure reprehenderit.</p>
         </section>
-    
+
+        <section class="section-green">
+            <h2>Smaller Heading</h2>
+            <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Minima exercitationem, fuga doloribus sequi sint eveniet nobis nulla obcaecati quibusdam quae, quia aliquam mollitia ea vel ullam dolores natus in quisquam?</p>
+            <p>At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati.</p>
+        </section>
+
+        <section class="section-rose">
+            <h2>Smaller Heading</h2>
+            <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Minima exercitationem, fuga doloribus sequi sint eveniet nobis nulla obcaecati quibusdam quae, quia aliquam mollitia ea vel ullam dolores natus in quisquam?</p>
+            <p>Temporibus autem quibusdam et aut officiis debitis aut rerum necessitatibus saepe eveniet ut et voluptates repudiandae sint et molestiae non recusandae itaque earum rerum hic tenetur.</p>
+        </section>
+
+        <section class="section-light">
+            <h2>Smaller Heading</h2>
+            <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Minima exercitationem, fuga doloribus sequi sint eveniet nobis nulla obcaecati quibusdam quae, quia aliquam mollitia ea vel ullam dolores natus in quisquam?</p>
+            <p>Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit quo minus id quod maxime placeat facere possimus, omnis voluptas assumenda est, omnis dolor repellendus.</p>
+        </section>
+
     </main>
-    <!-- main content ends here -->
 
-    <!-- Links to related web pages, legal and copyright -->
     <footer>
         <p><a href="../index.html">Back to Main Page</a></p>
     </footer>
 
     </body>
-    
+
     </html>
-    
-    

@@ -1,35 +1,111 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-1L2EBGSYDC"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-1L2EBGSYDC');
-</script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Webpage</title>
-    <link rel="stylesheet" href="css/index.css">
+    <title>Heleno Matos | Front-end Developer</title>
+    <meta name="description" content="Personal web page of Heleno Matos, front-end developer, with links to my front-end development exercises.">
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <style type="text/tailwindcss">
+        body {
+            @apply bg-slate-50 text-slate-800 font-sans;
+        }
+
+        header {
+            @apply bg-slate-900 text-white text-center
+            pt-8 px-[9%] pb-[42px] md:py-[3%] md:px-[20%];
+        }
+
+        header h1 {
+            @apply text-5xl md:text-6xl font-bold tracking-tight uppercase mb-4;
+        }
+
+        header p {
+            @apply text-lg md:text-xl leading-relaxed italic text-slate-200 mb-6;
+        }
+
+        header img {
+            @apply w-full max-w-[48rem] mx-auto rounded-lg shadow-lg;
+        }
+
+        section {
+            @apply pt-8 px-[9%] pb-[42px] md:py-[3%] md:px-[20%];
+        }
+
+        section h2 {
+            @apply text-3xl font-serif font-semibold text-sky-900 tracking-wide
+            border-b-2 border-sky-900 pb-1 mb-6;
+        }
+
+        section h3 {
+            @apply text-sm font-bold uppercase tracking-widest text-slate-500 mt-8 mb-3;
+        }
+
+        section p {
+            @apply text-lg leading-loose mb-2;
+        }
+
+        a {
+            @apply text-sky-700 underline underline-offset-4
+            hover:text-sky-900 focus:text-sky-900 transition-colors duration-300;
+        }
+
+        footer {
+            @apply bg-slate-200 text-slate-700 text-center text-sm tracking-wide
+            px-[9%] py-6 md:px-[20%];
+        }
+    </style>
+
+    <link rel="apple-touch-icon" sizes="180x180" href="assets/img/favicons/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/img/favicons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="assets/img/favicons/favicon-16x16.png">
+    <link rel="manifest" href="assets/img/favicons/site.webmanifest">
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-1L2EBGSYDC"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'G-1L2EBGSYDC');
+    </script>
+    <!-- Heleno Vitor Matos Leite 85416 -->
 </head>
 <body>
-    <h1>Heleno Matos</h1>
-    <p>Welcome to my personal webpage! Here you can find information about my projects and contact details.</p>
+    <header>
+        <h1>Heleno Matos</h1>
+        <p>Welcome to my personal webpage! Here you can find information about my projects and contact details.</p>
+        <img src="assets/img/frontend-developer.jpg" alt="A front-end developer writing code on a laptop in front of two monitors" width="1200" height="801">
+    </header>
 
-    <h2>Projects</h2>
-    <p><a href="exercises/soccer.html">Soccer Website</a></p>
-    <p><a href="exercises/laptops.html">Laptops Website</a></p>
-    <p><a href="exercises/page-1.html">Page 1</a></p>
-    <p><a href="exercises/Types.html">Types of Titles</a></p>
-    <p><a href="exercises/Tale.html">A Tale of Two Cities</a></p>
-    <p><a href="exercises/page-2.html">Purple Rain</a></p>
-    <p><a href="exercises/page-3.html">page 3</a></p>
-    <p><a href="exercises/hair.html">Hair Salon Website</a></p>
+    <main>
+        <section>
+            <h2>Projects</h2>
 
+            <h3>Exercises</h3>
+            <p><a href="exercises/soccer.html">Soccer Website</a></p>
+            <p><a href="exercises/laptops.html">Laptops Website</a></p>
+            <p><a href="exercises/Types.html">Types of Titles</a></p>
+            <p><a href="exercises/Tale.html">A Tale of Two Cities</a></p>
+            <p><a href="exercises/hair.html">Hair Salon Website</a></p>
 
-    
+            <h3>Sample pages</h3>
+            <p><a href="exercises/page-1.html">Page 1</a></p>
+            <p><a href="exercises/page-2.html">Purple Rain</a></p>
+            <p><a href="exercises/page-3.html">Page 3</a></p>
+            <p><a href="exercises/page-4.html">Vincent van Gogh</a></p>
+            <p><a href="exercises/page-5.html">Irish Tourism</a></p>
+
+            <h3>Hero blocks</h3>
+            <p><a href="exercises/hero-text.html">Hero block with animated text</a></p>
+            <p><a href="exercises/hero-image.html">Hero block with background image</a></p>
+            <p><a href="exercises/hero-video.html">Hero block with background video</a></p>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 Heleno Matos</p>
+    </footer>
 </body>
 </html>

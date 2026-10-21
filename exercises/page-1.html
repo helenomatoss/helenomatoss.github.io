@@ -4,11 +4,59 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Exercise 1</title>
-    <link rel="stylesheet" href="css/page-1.css">
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <style type="text/tailwindcss">
+        body {
+            @apply bg-stone-50 text-stone-800 font-sans;
+        }
+
+        header {
+            @apply bg-teal-800 text-white text-center
+            pt-8 px-[9%] pb-[42px] md:py-[3%] md:px-[20%];
+        }
+
+        header h1 {
+            @apply text-5xl md:text-6xl font-extrabold tracking-tight uppercase;
+        }
+
+        section {
+            @apply pt-8 px-[9%] pb-[42px] md:py-[3%] md:px-[20%];
+        }
+
+        section h2 {
+            @apply text-3xl font-serif font-semibold italic text-teal-900 tracking-wide mb-4;
+        }
+
+        section p {
+            @apply text-lg leading-relaxed text-justify mb-4;
+        }
+
+        a {
+            @apply text-teal-700 font-medium underline underline-offset-4
+            hover:text-teal-900 focus:text-teal-900 transition-colors duration-300;
+        }
+
+        footer {
+            @apply bg-stone-200 text-center text-sm tracking-wider uppercase
+            px-[9%] py-6 md:px-[20%];
+        }
+    </style>
+    <!-- Heleno Vitor Matos Leite 85416 -->
 </head>
 <body>
-    <h1>Heleno's Page</h1>
-    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Saepe fuga cumque consequatur aliquam deleniti </br> porro similique nesciunt soluta ad aliquid totam dolorum facere neque nostrum, unde voluptate laborum ullam.</p>
-    <p><a href="../index.html">Back to Main Page</a></p>
+    <header>
+        <h1>Heleno's Page</h1>
+    </header>
+
+    <main>
+        <section>
+            <h2>About this page</h2>
+            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Saepe fuga cumque consequatur aliquam deleniti porro similique nesciunt soluta ad aliquid totam dolorum facere neque nostrum, unde voluptate laborum ullam.</p>
+        </section>
+    </main>
+
+    <footer>
+        <p><a href="../index.html">Back to Main Page</a></p>
+    </footer>
 </body>
 </html>
