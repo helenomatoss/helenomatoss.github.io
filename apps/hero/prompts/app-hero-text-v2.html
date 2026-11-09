@@ -1,0 +1,716 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Hero Block Generator</title>
+  <meta name="description" content="Short, unique description of web page. Often used as the snippet shown in search results. About 120 characters is ideal.">
+
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+
+  <!-- HERO STYLES: used by the preview AND copied into the exported page. -->
+  <style type="text/tailwindcss" id="hero-styles">
+    .hero {
+      @apply flex items-center px-6 py-16 md:px-12 md:py-24;
+    }
+
+    .hero-content {
+      @apply w-full max-w-4xl;
+    }
+
+    .hero h1 {
+      @apply text-4xl leading-tight font-bold tracking-tight md:text-6xl;
+      overflow-wrap: anywhere;
+    }
+
+    .hero h2 {
+      @apply mt-6 max-w-2xl text-lg leading-relaxed font-normal md:mt-8 md:text-2xl;
+      overflow-wrap: anywhere;
+    }
+
+    .hero h2[hidden] {
+      display: none;
+    }
+
+    .hero-light {
+      @apply bg-slate-50;
+    }
+
+    .hero-light h1 {
+      @apply text-slate-900;
+    }
+
+    .hero-light h2 {
+      @apply text-slate-700;
+    }
+
+    .hero-dark {
+      @apply bg-slate-900;
+    }
+
+    .hero-dark h1 {
+      @apply text-slate-50;
+    }
+
+    .hero-dark h2 {
+      @apply text-slate-300;
+    }
+
+    .hero-centre {
+      @apply justify-center text-center;
+    }
+
+    .hero-centre .hero-content,
+    .hero-centre h2 {
+      @apply mx-auto;
+    }
+
+    .hero-min-height {
+      @apply min-h-[480px] md:min-h-[85vh];
+    }
+
+    /* Heading font family (one class per heading) */
+    .hero-font-sans {
+      @apply font-sans;
+    }
+
+    .hero-font-serif {
+      @apply font-serif;
+    }
+  </style>
+
+  <!-- HEADING LETTER SPACING: written by the script, also copied into the export.
+       ".hero .hero-content h1" is more specific than ".hero h1", so it overrides tracking-tight. -->
+  <style id="heading-effect-styles"></style>
+
+  <!-- EDITOR STYLES: only for this generator. Never copied into the export. -->
+  <style type="text/tailwindcss" id="editor-styles">
+    .app {
+      @apply min-h-screen bg-white text-slate-900 antialiased;
+    }
+
+    .app-main {
+      @apply mx-auto max-w-6xl px-4 pt-6 pb-36 md:px-8 md:pt-10;
+    }
+
+    .app-title {
+      @apply mb-3 text-sm font-semibold tracking-wider text-indigo-700 uppercase;
+    }
+
+    .control-panel {
+      @apply mb-4 rounded-xl border border-slate-200 bg-white p-4 shadow-sm;
+    }
+
+    .control-panel-title {
+      @apply mb-3 text-sm font-semibold text-slate-700;
+    }
+
+    .control-list {
+      @apply flex flex-wrap gap-2;
+    }
+
+    .control-option {
+      @apply inline-flex cursor-pointer items-center gap-2 rounded-lg border border-slate-300 bg-slate-50 px-3 py-2 text-sm font-medium text-slate-700 transition-colors select-none;
+    }
+
+    .control-option:hover {
+      @apply border-slate-400 bg-white;
+    }
+
+    .control-option:has(.control-checkbox:checked) {
+      @apply border-indigo-600 bg-indigo-50 text-indigo-900;
+    }
+
+    .control-option:has(.control-checkbox:focus-visible) {
+      box-shadow: 0 0 0 3px rgb(79 70 229 / 0.35);
+    }
+
+    .control-checkbox {
+      @apply size-4 cursor-pointer accent-indigo-600;
+    }
+
+    .control-checkbox:focus-visible {
+      outline: 3px solid #4f46e5;
+      outline-offset: 2px;
+    }
+
+    .effects-grid {
+      @apply grid gap-6 md:grid-cols-2;
+    }
+
+    .effect-group {
+      @apply min-w-0 transition-opacity;
+    }
+
+    .effect-group:disabled {
+      @apply opacity-50;
+    }
+
+    .effect-group:disabled .control-option,
+    .effect-group:disabled .control-checkbox,
+    .effect-group:disabled .control-range {
+      @apply cursor-not-allowed;
+    }
+
+    .effect-group:disabled .control-option:hover {
+      @apply border-slate-300 bg-slate-50;
+    }
+
+    .effect-controls {
+      @apply flex flex-col items-start gap-3;
+    }
+
+    .range-control {
+      @apply flex flex-wrap items-center gap-3 text-sm text-slate-700;
+    }
+
+    .range-label {
+      @apply font-medium;
+    }
+
+    .control-range {
+      @apply w-48 cursor-pointer accent-indigo-600;
+    }
+
+    .control-range:focus-visible {
+      outline: 3px solid #4f46e5;
+      outline-offset: 2px;
+    }
+
+    .range-value {
+      @apply min-w-[4.5rem] font-mono text-xs text-slate-600;
+    }
+
+    .app-instruction {
+      @apply mb-3 text-sm text-slate-600;
+    }
+
+    .preview-frame {
+      @apply overflow-hidden rounded-xl border border-slate-200 shadow-sm;
+    }
+
+    .editable-heading {
+      cursor: text;
+      border-radius: 0.25rem;
+      min-height: 1lh;
+    }
+
+    .editable-heading:hover {
+      outline: 2px dashed rgb(99 102 241 / 0.5);
+      outline-offset: 6px;
+    }
+
+    .editable-heading:focus {
+      outline: 3px solid #4f46e5;
+      outline-offset: 6px;
+    }
+
+    .hero-dark .editable-heading:hover {
+      outline-color: rgb(165 180 252 / 0.6);
+    }
+
+    .hero-dark .editable-heading:focus {
+      outline-color: #a5b4fc;
+    }
+
+    .manual-copy {
+      @apply mt-6 rounded-xl border border-amber-300 bg-amber-50 p-4;
+    }
+
+    .manual-copy[hidden] {
+      display: none;
+    }
+
+    .manual-copy-label {
+      @apply mb-2 block text-sm font-semibold text-amber-900;
+    }
+
+    .manual-copy-textarea {
+      @apply h-72 w-full rounded-lg border border-slate-300 bg-white p-3 font-mono text-xs text-slate-800;
+    }
+
+    .manual-copy-textarea:focus-visible {
+      outline: 3px solid #4f46e5;
+      outline-offset: 2px;
+    }
+
+    .copy-dock {
+      @apply fixed right-4 bottom-4 z-50 flex max-w-[calc(100vw-2rem)] flex-col items-end gap-2;
+    }
+
+    .copy-status {
+      @apply rounded-lg bg-slate-900 px-3 py-2 text-sm text-white shadow-lg;
+    }
+
+    .copy-status:empty {
+      @apply bg-transparent p-0 shadow-none;
+    }
+
+    .copy-status-error {
+      @apply bg-red-700;
+    }
+
+    .copy-button {
+      @apply cursor-pointer rounded-full bg-indigo-600 px-5 py-3 text-sm font-semibold text-white shadow-lg transition-colors;
+    }
+
+    .copy-button:hover {
+      @apply bg-indigo-700;
+    }
+
+    .copy-button:focus-visible {
+      outline: 3px solid #4f46e5;
+      outline-offset: 3px;
+    }
+
+    .visually-hidden {
+      @apply sr-only;
+    }
+  </style>
+</head>
+<body class="app">
+  <main class="app-main">
+    <p class="app-title">Hero Block Generator</p>
+
+    <!-- Control panel: four checkboxes, no form element needed -->
+    <div class="control-panel">
+      <fieldset>
+        <legend class="control-panel-title">Hero settings</legend>
+        <div class="control-list">
+          <label class="control-option" for="dark-appearance">
+            <input class="control-checkbox" type="checkbox" id="dark-appearance">
+            Dark appearance
+          </label>
+          <label class="control-option" for="centre-text">
+            <input class="control-checkbox" type="checkbox" id="centre-text">
+            Centre text
+          </label>
+          <label class="control-option" for="minimum-height">
+            <input class="control-checkbox" type="checkbox" id="minimum-height" checked>
+            Minimum height
+          </label>
+          <label class="control-option" for="show-subheading">
+            <input class="control-checkbox" type="checkbox" id="show-subheading" checked>
+            Show subheading
+          </label>
+        </div>
+      </fieldset>
+    </div>
+
+    <!-- Text effects: one group per heading. The H2 fieldset is disabled when the subheading is hidden. -->
+    <div class="control-panel">
+      <div class="effects-grid">
+        <fieldset class="effect-group" id="h1-effects">
+          <legend class="control-panel-title">H1 text effects</legend>
+          <div class="effect-controls">
+            <label class="control-option" for="h1-serif-font">
+              <input class="control-checkbox" type="checkbox" id="h1-serif-font">
+              Serif font
+            </label>
+            <div class="range-control">
+              <label class="range-label" for="h1-letter-spacing">Letter spacing</label>
+              <input class="control-range" type="range" id="h1-letter-spacing" min="-0.05" max="0.1" step="0.005" value="-0.05">
+              <output class="range-value" id="h1-letter-spacing-value" for="h1-letter-spacing" aria-hidden="true">-0.05em</output>
+            </div>
+          </div>
+        </fieldset>
+
+        <fieldset class="effect-group" id="h2-effects">
+          <legend class="control-panel-title">H2 text effects</legend>
+          <div class="effect-controls">
+            <label class="control-option" for="h2-serif-font">
+              <input class="control-checkbox" type="checkbox" id="h2-serif-font">
+              Serif font
+            </label>
+            <div class="range-control">
+              <label class="range-label" for="h2-letter-spacing">Letter spacing</label>
+              <input class="control-range" type="range" id="h2-letter-spacing" min="-0.05" max="0.1" step="0.005" value="-0.025">
+              <output class="range-value" id="h2-letter-spacing-value" for="h2-letter-spacing" aria-hidden="true">-0.025em</output>
+            </div>
+          </div>
+        </fieldset>
+      </div>
+    </div>
+
+    <p class="app-instruction" id="edit-instruction">Click a heading to edit the text.</p>
+
+    <!-- Live hero preview -->
+    <div class="preview-frame">
+      <header class="hero hero-light hero-min-height" id="hero">
+        <div class="hero-content">
+          <h1 class="editable-heading hero-font-sans" id="hero-title" contenteditable="true" aria-describedby="hero-title-hint edit-instruction">Lorem ipsum dolor sit amet</h1>
+          <h2 class="editable-heading hero-font-sans" id="hero-subtitle" contenteditable="true" aria-describedby="hero-subtitle-hint edit-instruction">Consectetur adipiscing elit. Integer vitae libero ac risus egestas placerat.</h2>
+        </div>
+      </header>
+    </div>
+    <p class="visually-hidden" id="hero-title-hint">Editable main heading.</p>
+    <p class="visually-hidden" id="hero-subtitle-hint">Editable subheading.</p>
+
+    <!-- Fallback: only shown if the Clipboard API fails -->
+    <section class="manual-copy" id="manual-copy" hidden>
+      <label class="manual-copy-label" for="manual-copy-output">Generated HTML — select all and copy it manually</label>
+      <textarea class="manual-copy-textarea" id="manual-copy-output" readonly spellcheck="false"></textarea>
+    </section>
+  </main>
+
+  <!-- Fixed copy button with an accessible status message -->
+  <div class="copy-dock">
+    <p class="copy-status" id="copy-status" role="status" aria-live="polite"></p>
+    <button class="copy-button" type="button" id="copy-button">Copy HTML</button>
+  </div>
+
+  <script>
+    // ---------------------------------------------------------------
+    // 1. Find the page elements we need
+    // ---------------------------------------------------------------
+    const heroElement = document.getElementById('hero');
+    const heroTitle = document.getElementById('hero-title');
+    const heroSubtitle = document.getElementById('hero-subtitle');
+    const heroStyleElement = document.getElementById('hero-styles');
+    const headingEffectStyleElement = document.getElementById('heading-effect-styles');
+    const h2EffectsGroup = document.getElementById('h2-effects');
+    const copyButton = document.getElementById('copy-button');
+    const copyStatus = document.getElementById('copy-status');
+    const manualCopySection = document.getElementById('manual-copy');
+    const manualCopyOutput = document.getElementById('manual-copy-output');
+
+    // One checkbox per setting
+    const checkboxes = {
+      darkAppearance: document.getElementById('dark-appearance'),
+      centreText: document.getElementById('centre-text'),
+      minimumHeight: document.getElementById('minimum-height'),
+      showSubheading: document.getElementById('show-subheading'),
+      h1SerifFont: document.getElementById('h1-serif-font'),
+      h2SerifFont: document.getElementById('h2-serif-font')
+    };
+
+    // One range slider per numeric setting
+    const sliders = {
+      h1LetterSpacing: document.getElementById('h1-letter-spacing'),
+      h2LetterSpacing: document.getElementById('h2-letter-spacing')
+    };
+
+    // The text beside each slider showing its current value
+    const sliderValues = {
+      h1LetterSpacing: document.getElementById('h1-letter-spacing-value'),
+      h2LetterSpacing: document.getElementById('h2-letter-spacing-value')
+    };
+
+    // ---------------------------------------------------------------
+    // 2. The settings object (these are the default values)
+    // ---------------------------------------------------------------
+    const settings = {
+      darkAppearance: false,
+      centreText: false,
+      minimumHeight: true,
+      showSubheading: true,
+      h1SerifFont: false,
+      h2SerifFont: false,
+      h1LetterSpacing: -0.05,   // em
+      h2LetterSpacing: -0.025   // em
+    };
+
+    const PAGE_DESCRIPTION = 'Short, unique description of web page. Often used as the snippet shown in search results. About 120 characters is ideal.';
+    const TAILWIND_SCRIPT_URL = 'https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4';
+    let statusTimer = null;
+
+    // ---------------------------------------------------------------
+    // 3. Settings → classes (shared by preview and export)
+    // ---------------------------------------------------------------
+
+    // Copy each checkbox's checked property (true/false) into settings
+    function readSettingsFromCheckboxes() {
+      settings.darkAppearance = checkboxes.darkAppearance.checked;
+      settings.centreText = checkboxes.centreText.checked;
+      settings.minimumHeight = checkboxes.minimumHeight.checked;
+      settings.showSubheading = checkboxes.showSubheading.checked;
+      settings.h1SerifFont = checkboxes.h1SerifFont.checked;
+      settings.h2SerifFont = checkboxes.h2SerifFont.checked;
+    }
+o classes should be on (true) or off (false)?
+    function getHeroClassState() {
+      return {
+        'hero-light': !settings.darkAppearance,
+        'hero-dark': settings.darkAppearance,
+        'hero-centre': settings.centreText,
+        'hero-min-height': settings.minimumHeight
+      };
+    }
+
+    // Serif checkbox → font class for one heading
+    function getHeadingFontClass(isSerif) {
+      return isSerif ? 'hero-font-serif' : 'hero-font-sans';
+    }
+
+    // Format a number as an em value, e.g. -0.05 → "-0.05em".
+    // toFixed(3) removes floating-point noise such as 0.030000000000000002.
+    function formatEm(value) {
+      return parseFloat(value.toFixed(3)) + 'em';
+    }
+
+    // Build the heading letter-spacing CSS rules.
+    // The h2 rule is left out of the export when the subheading is hidden.
+    function getLetterSpacingCss(includeSubheading) {
+      const rules = [
+        '.hero .hero-content h1 {\n  letter-spacing: ' + formatEm(settings.h1LetterSpacing) + ';\n}'
+      ];
+      if (includeSubheading) {
+        rules.push('.hero .hero-content h2 {\n  letter-spacing: ' + formatEm(settings.h2LetterSpacing) + ';\n}');
+      }
+      return rules.join('\n\n');
+    }
+
+    // Show each slider's value with its unit, and give screen readers the same text
+    function updateSliderValues() {
+      for (const settingName in sliders) {
+        const text = formatEm(settings[settingName]);
+        sliderValues[settingName].textContent = text;
+        sliders[settingName].setAttribute('aria-valuetext', text);
+      }
+    }
+
+    // Apply the H1/H2 font classes and letter-spacing rules to the preview
+    function applyHeadingEffects() {
+      heroTitle.classList.toggle('hero-font-sans', !settings.h1SerifFont);
+      heroTitle.classList.toggle('hero-font-serif', settings.h1SerifFont);
+      heroSubtitle.classList.toggle('hero-font-sans', !settings.h2SerifFont);
+      heroSubtitle.classList.toggle('hero-font-serif', settings.h2SerifFont);
+
+      headingEffectStyleElement.textContent = getLetterSpacingCss(true);
+      updateSliderValues();
+
+      // Disabling the fieldset disables every control inside it,
+      // but keeps their values, so the H2 settings come back unchanged.
+      h2EffectsGroup.disabled = !settings.showSubheading;
+    }
+
+    // Update the live preview. The base "hero" class is never removed,
+    // and the headings are never replaced, so edited text is kept.
+    function applySettingsToHero() {
+      const classState = getHeroClassState();
+      for (const className in classState) {
+        heroElement.classList.toggle(className, classState[className]);
+      }
+      // hidden = display: none, so no space taken and no keyboard focus
+      heroSubtitle.hidden = !settings.showSubheading;
+      applyHeadingEffects();
+    }
+
+    // Build the class attribute for the exported header
+    function getExportClassNames() {
+      const classState = getHeroClassState();
+      const classNames = ['hero'];
+      for (const className in classState) {
+        if (classState[className]) {
+          classNames.push(className);
+        }
+      }
+      return classNames.join(' ');
+    }
+
+    function handleSettingChange() {
+      readSettingsFromCheckboxes();
+      readSettingsFromSliders();
+      applySettingsToHero();
+      refreshManualCopy();
+    }
+
+    // ---------------------------------------------------------------
+    // 4. Plain-text editing helpers
+    // ---------------------------------------------------------------
+
+    // Get the heading text with extra spaces and line breaks tidied up
+    function getHeadingText(heading) {
+      return heading.textContent.replace(/\s+/g, ' ').trim();
+    }
+
+    // Move the text cursor to the end of a heading
+    function placeCaretAtEnd(element) {
+      const range = document.createRange();
+      range.selectNodeContents(element);
+      range.collapse(false);
+      const selection = window.getSelection();
+      selection.removeAllRanges();
+      selection.addRange(range);
+    }
+
+    // Paste only plain text, never formatting or HTML elements
+    function handlePlainTextPaste(event) {
+      event.preventDefault();
+      const pastedText = event.clipboardData.getData('text/plain').replace(/\s+/g, ' ');
+      const selection = window.getSelection();
+      if (!selection.rangeCount) {
+        return;
+      }
+      const range = selection.getRangeAt(0);
+      range.deleteContents();
+      const textNode = document.createTextNode(pastedText);
+      range.insertNode(textNode);
+      range.setStartAfter(textNode);
+      range.collapse(true);
+      selection.removeAllRanges();
+      selection.addRange(range);
+      event.currentTarget.normalize();
+      refreshManualCopy();
+    }
+
+    // Headings are single-line: Enter would insert <div> or <br> elements
+    function preventLineBreak(event) {
+      if (event.key === 'Enter') {
+        event.preventDefault();
+      }
+    }
+
+    // Block dragging formatted content into a heading
+    function preventDrop(event) {
+      event.preventDefault();
+    }
+
+    // Safety net: if the browser slipped in an element, turn it back into text
+    function handleHeadingInput(event) {
+      const heading = event.currentTarget;
+      if (heading.childElementCount > 0) {
+        heading.textContent = heading.textContent;
+        placeCaretAtEnd(heading);
+      }
+      refreshManualCopy();
+    }
+
+    // ---------------------------------------------------------------
+    // 5. Build the exported HTML document
+    // ---------------------------------------------------------------
+
+    // Turn &, <, >, " and ' into entities so they stay as text
+    function escapeHtml(text) {
+      return text
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
+    }
+
+    // Read the shared hero CSS straight from the hero <style> element
+    function getHeroCss() {
+      return heroStyleElement.textContent.replace(/^\s*\n/, '').replace(/\s+$/, '');
+    }
+
+    // Indent every line of a block of CSS so it sits neatly inside <style>
+    function indentLines(text, indent) {
+      return text.split('\n').map(function (line) {
+        return line ? indent + line : line;
+      }).join('\n');
+    }
+
+    function buildExportHtml() {
+      const titleText = escapeHtml(getHeadingText(heroTitle));
+      const lines = [
+        '<!DOCTYPE html>',
+        '<html lang="en">',
+        '<head>',
+        '  <meta charset="UTF-8">',
+        '  <meta name="viewport" content="width=device-width, initial-scale=1">',
+        '  <title>' + (titleText || 'Hero') + '</title>',
+        '  <meta name="description" content="' + PAGE_DESCRIPTION + '">',
+        // "<\/script>" stops this string from ending the generator's own script
+        '  <script src="' + TAILWIND_SCRIPT_URL + '"><\/script>',
+        '  <style type="text/tailwindcss">',
+        getHeroCss(),
+        '  </style>',
+        '  <style>',
+        indentLines(getLetterSpacingCss(settings.showSubheading), '    '),
+        '  </style>',
+        '</head>',
+        '<body>',
+        '  <header class="' + getExportClassNames() + '">',
+        '    <div class="hero-content">',
+        '      <h1 class="' + getHeadingFontClass(settings.h1SerifFont) + '">' + titleText + '</h1>'
+      ];
+
+      // Only include the h2 when "Show subheading" is checked
+      if (settings.showSubheading) {
+        lines.push('      <h2 class="' + getHeadingFontClass(settings.h2SerifFont) + '">' + escapeHtml(getHeadingText(heroSubtitle)) + '</h2>');
+      }
+
+      lines.push('    </div>', '  </header>', '</body>', '</html>');
+      return lines.join('\n') + '\n';
+    }
+
+    // ---------------------------------------------------------------
+    // 6. Copy HTML, status message and manual fallback
+    // ---------------------------------------------------------------
+    function showStatus(message, isError) {
+      clearTimeout(statusTimer);
+      copyStatus.textContent = message;
+      copyStatus.classList.toggle('copy-status-error', isError);
+      statusTimer = setTimeout(function () {
+        copyStatus.textContent = '';
+        copyStatus.classList.remove('copy-status-error');
+      }, isError ? 8000 : 4000);
+    }
+
+    function showManualCopy(html) {
+      manualCopySection.hidden = false;
+      manualCopyOutput.value = html;
+      manualCopyOutput.focus();
+      manualCopyOutput.select();
+    }
+
+    // Keep the fallback textarea up to date while it is visible
+    function refreshManualCopy() {
+      if (!manualCopySection.hidden) {
+        manualCopyOutput.value = buildExportHtml();
+      }
+    }
+
+    async function copyHtml() {
+      const html = buildExportHtml(); // always reads the latest text and settings
+      try {
+        if (!navigator.clipboard || !navigator.clipboard.writeText) {
+          throw new Error('Clipboard API not available');
+        }
+        await navigator.clipboard.writeText(html);
+        manualCopySection.hidden = true;
+        showStatus('HTML copied—paste it into VS Code.', false);
+      } catch (error) {
+        showManualCopy(html);
+        showStatus('Copying isn’t available here. Select the HTML in the box below and copy it manually.', true);
+      }
+    }
+
+    // ---------------------------------------------------------------
+    // 7. Connect events and start the app
+    // ---------------------------------------------------------------
+    for (const settingName in checkboxes) {
+      checkboxes[settingName].addEventListener('change', handleSettingChange);
+    }
+
+    // "input" fires continuously while dragging, so the preview updates live
+    for (const settingName in sliders) {
+      sliders[settingName].addEventListener('input', handleSettingChange);
+    }
+
+    [heroTitle, heroSubtitle].forEach(function (heading) {
+      heading.addEventListener('paste', handlePlainTextPaste);
+      heading.addEventListener('keydown', preventLineBreak);
+      heading.addEventListener('drop', preventDrop);
+      heading.addEventListener('input', handleHeadingInput);
+    });
+
+    copyButton.addEventListener('click', copyHtml);
+
+    // Read the controls once on load (some browsers remember them after refresh)
+    readSettingsFromCheckboxes();
+    readSettingsFromSliders();
+    applySettingsToHero();
+  </script>
+</body>
+</html>
+
+    // Copy each slider's value into settings as a number (not a string)
+    function readSettingsFromSliders() {
+      settings.h1LetterSpacing = Number(sliders.h1LetterSpacing.value);
+      settings.h2LetterSpacing = Number(sliders.h2LetterSpacing.value);
+    }
+
+    // Which optional her

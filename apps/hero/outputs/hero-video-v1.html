@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Lorem ipsum dolor sit amet</title>
+  <meta name="description" content="Short, unique description of web page. Often used as the snippet shown in search results. About 120 characters is ideal.">
+  <link rel="preload" as="image" href="assets/video/hero-poster.jpg">
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+  <style type="text/tailwindcss">
+    /* Stacking order: poster (z-0) → video (z-10) → overlay (z-20) → content (z-30).
+       "isolate" keeps these z-indexes inside the hero. */
+    .hero {
+      @apply relative isolate flex items-center overflow-hidden px-6 py-16 md:px-12 md:py-24;
+    }
+
+    /* Poster fallback: covers the whole hero, centred, cropped (never stretched).
+       Visible until the video is actually playing, and whenever it can't play. */
+    .hero-poster {
+      @apply pointer-events-none absolute inset-0 z-0 bg-cover bg-center bg-no-repeat;
+    }
+
+    /* Decorative video: fills the hero, cropped (never stretched).
+       Hidden until the "playing" event adds .hero-video-playing. */
+    .hero-video {
+      @apply pointer-events-none absolute inset-0 z-10 h-full w-full object-cover object-center;
+      visibility: hidden;
+    }
+
+    .hero-video.hero-video-playing {
+      visibility: visible;
+    }
+
+    /* Tint layer: colour, gradient and opacity are set by the overlay rules */
+    .hero-overlay {
+      @apply pointer-events-none absolute inset-0 z-20;
+    }
+
+    /* Content layer: always above the overlay, always fully opaque */
+    .hero-content {
+      @apply relative z-30 w-full max-w-4xl;
+    }
+
+    .hero h1 {
+      @apply text-4xl leading-tight font-bold tracking-tight text-shadow-lg/30 md:text-6xl;
+      overflow-wrap: anywhere;
+    }
+
+    .hero h2 {
+      @apply mt-6 max-w-2xl text-lg leading-relaxed font-normal text-shadow-lg/30 md:mt-8 md:text-2xl;
+      overflow-wrap: anywhere;
+    }
+
+    .hero h2[hidden] {
+      display: none;
+    }
+
+    .hero-centre {
+      @apply justify-center text-center;
+    }
+
+    .hero-centre .hero-content,
+    .hero-centre h2 {
+      @apply mx-auto;
+    }
+
+    .hero-min-height {
+      @apply min-h-[480px] md:min-h-[85vh];
+    }
+
+    /* Heading font family (one class per heading) */
+    .hero-font-sans {
+      @apply font-sans;
+    }
+
+    .hero-font-serif {
+      @apply font-serif;
+    }
+  </style>
+  <style>
+    .hero .hero-poster {
+      background-image: url("assets/video/hero-poster.jpg");
+    }
+
+    .hero .hero-content h1 {
+      letter-spacing: -0.05em;
+    }
+
+    .hero .hero-content h2 {
+      letter-spacing: -0.025em;
+    }
+  </style>
+  <style type="text/tailwindcss">
+    .hero .hero-overlay {
+      background-color: transparent;
+      background-image: linear-gradient(to right, var(--color-orange-400), var(--color-fuchsia-700));
+      opacity: 0.4;
+    }
+
+    .hero .hero-content h1 {
+      color: var(--color-violet-800);
+    }
+
+    .hero .hero-content h2 {
+      color: var(--color-white);
+    }
+  </style>
+</head>
+<body>
+  <header class="hero hero-min-height">
+    <div class="hero-poster" aria-hidden="true"></div>
+    <video class="hero-video" autoplay muted loop playsinline webkit-playsinline preload="auto" disablepictureinpicture disableremoteplayback poster="assets/video/hero-poster.jpg" aria-hidden="true" tabindex="-1">
+      <source src="assets/video/hero-video.mp4" type="video/mp4">
+    </video>
+    <div class="hero-overlay" aria-hidden="true"></div>
+    <div class="hero-content">
+      <h1 class="hero-font-serif">Lorem ipsum dolor sit amet</h1>
+      <h2 class="hero-font-sans">Consectetur adipiscing elit. Integer vitae libero ac risus egestas placerat.</h2>
+    </div>
+  </header>
+  <script>
+      (function () {
+        const heroVideos = document.querySelectorAll('.hero-video');
+
+        // Reveal the video once frames are actually playing
+        function markPlaying(video) {
+          video.classList.add('hero-video-playing');
+        }
+
+        // Muted + playsinline autoplay is allowed by Chrome, Edge, Firefox, Safari (desktop and iOS) and Android.
+        // If a browser still blocks it (e.g. power-saving mode), retry on the first user interaction.
+        function tryPlay(video) {
+          video.muted = true;
+          video.defaultMuted = true;
+          const playRequest = video.play();
+          if (playRequest && typeof playRequest.catch === 'function') {
+            playRequest.catch(function () {
+              const resume = function () {
+                video.play().catch(function () {});
+                ['pointerdown', 'touchstart', 'keydown', 'scroll'].forEach(function (evt) {
+                  window.removeEventListener(evt, resume);
+                });
+              };
+              ['pointerdown', 'touchstart', 'keydown', 'scroll'].forEach(function (evt) {
+                window.addEventListener(evt, resume, { once: true, passive: true });
+              });
+            });
+          }
+        }
+
+        heroVideos.forEach(function (video) {
+          video.addEventListener('playing', function () { markPlaying(video); });
+
+          // The autoplay attribute may already have started playback before this script ran
+          if (!video.paused && video.readyState > 2) {
+            markPlaying(video);
+          } else {
+            tryPlay(video);
+          }
+        });
+
+        // Resume when the tab becomes visible again (some browsers pause background videos)
+        document.addEventListener('visibilitychange', function () {
+          if (!document.hidden) {
+            heroVideos.forEach(function (video) {
+              if (video.paused) tryPlay(video);
+            });
+          }
+        });
+      })();
+  </script>
+</body>
+</html>
